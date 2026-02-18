@@ -7,14 +7,22 @@ Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-c
 ## Install
 
 ```bash
+claude plugin add github:Citedy/game-sounds
+```
+
+<details>
+<summary>Alternative install methods</summary>
+
+```bash
 # npm
-npm install -g @citedy/game-sounds
+npm i -g @citedy/game-sounds
 claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
-# Or clone locally
-git clone https://github.com/citedy/game-sounds.git
-claude --plugin-dir ./game-sounds
+# Git clone
+git clone https://github.com/Citedy/game-sounds.git ~/.claude/plugins/game-sounds
 ```
+
+</details>
 
 ## Sound Packs
 
