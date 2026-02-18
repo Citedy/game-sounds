@@ -1,0 +1,11 @@
+{
+  "volume": 0.5,
+  "active_pack": "warcraft",
+  "enabled_events": {
+    "session-start": true,
+    "task-acknowledge": true,
+    "task-complete": true,
+    "error": true,
+    "permission": true
+  }
+}

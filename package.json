@@ -1,0 +1,30 @@
+{
+  "name": "@citedy/game-sounds",
+  "version": "1.0.0",
+  "description": "Game sound effects for Claude Code — Warcraft, StarCraft & more. Work work! 🔨",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "game-sounds",
+    "warcraft",
+    "sound-effects",
+    "developer-experience"
+  ],
+  "author": "Citedy <hello@citedy.com>",
+  "license": "MIT",
+  "homepage": "https://www.citedy.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/citedy/game-sounds"
+  },
+  "files": [
+    ".claude-plugin/",
+    "hooks/",
+    "scripts/",
+    "skills/",
+    "sounds/",
+    "config.json",
+    "README.md",
+    "LICENSE"
+  ]
+}

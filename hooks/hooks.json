@@ -1,0 +1,24 @@
+{
+  "hooks": [
+    {
+      "event": "SessionStart",
+      "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/play-sound.sh session-start",
+      "timeout": 5000
+    },
+    {
+      "event": "UserPromptSubmit",
+      "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/play-sound.sh task-acknowledge",
+      "timeout": 5000
+    },
+    {
+      "event": "Stop",
+      "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/play-sound.sh task-complete",
+      "timeout": 5000
+    },
+    {
+      "event": "Notification",
+      "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/play-sound.sh permission",
+      "timeout": 5000
+    }
+  ]
+}
