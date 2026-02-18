@@ -4,25 +4,42 @@
 
 set -euo pipefail
 
+# Colors
+BOLD='\033[1m'
+DIM='\033[2m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+CYAN='\033[36m'
+MAGENTA='\033[35m'
+RESET='\033[0m'
+
+# Pack icons
+pack_icon() {
+  case "$1" in
+    warcraft)        echo "⚔️"  ;;
+    starcraft)       echo "🚀" ;;
+    diablo)          echo "🔥" ;;
+    command-conquer) echo "🏗️"  ;;
+    mario)           echo "🍄" ;;
+    zelda)           echo "🗡️"  ;;
+    *)               echo "🎮" ;;
+  esac
+}
+
 # Find config file
 find_config() {
-  # 1. Script's own plugin directory
   local script_dir="$(cd "$(dirname "$0")/.." && pwd)"
   [[ -f "$script_dir/config.json" ]] && echo "$script_dir/config.json" && return 0
-  # 2. Marketplace cache
   for f in "$HOME"/.claude/plugins/cache/citedy/game-sounds/*/config.json; do
     [[ -f "$f" ]] && echo "$f" && return 0
   done
-  # 3. Manual clone location
   [[ -f "$HOME/.claude/plugins/game-sounds/config.json" ]] && echo "$HOME/.claude/plugins/game-sounds/config.json" && return 0
   echo "Error: config.json not found" >&2
   return 1
 }
 
-# Find sounds root
 find_sounds() {
-  local config="$1"
-  echo "$(dirname "$config")/sounds"
+  echo "$(dirname "$1")/sounds"
 }
 
 CONFIG=$(find_config)
@@ -44,41 +61,114 @@ with open('$CONFIG', 'w') as f:
 " 2>/dev/null
 }
 
-case "${1:-help}" in
+# Arrow key interactive menu
+interactive_select() {
+  local current="$1"
+  shift
+  local packs=("$@")
+  local selected=0
+  local count=${#packs[@]}
+
+  # Find current pack index
+  for i in "${!packs[@]}"; do
+    [[ "${packs[$i]}" == "$current" ]] && selected=$i
+  done
+
+  # Hide cursor
+  tput civis 2>/dev/null || true
+  trap 'tput cnorm 2>/dev/null; exit' EXIT INT TERM
+
+  while true; do
+    # Clear menu area
+    for ((i=0; i<count+2; i++)); do
+      echo -ne "\033[2K"
+      [[ $i -lt $((count+1)) ]] && echo -ne "\033[1B"
+    done
+    # Move back up
+    for ((i=0; i<count+1; i++)); do
+      echo -ne "\033[1A"
+    done
+
+    # Draw menu
+    echo -e "${BOLD}Select a sound pack:${RESET}  ${DIM}(↑/↓ arrows, Enter to confirm)${RESET}"
+    for i in "${!packs[@]}"; do
+      local pack="${packs[$i]}"
+      local icon=$(pack_icon "$pack")
+      local scount=$(find "$SOUNDS_DIR/$pack" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
+      local active=""
+      [[ "$pack" == "$current" ]] && active=" ${GREEN}(active)${RESET}"
+
+      if [[ $i -eq $selected ]]; then
+        echo -e "  ${CYAN}❯${RESET} ${BOLD}$icon $pack${RESET} ${DIM}($scount sounds)${RESET}$active"
+      else
+        echo -e "    $icon ${DIM}$pack ($scount sounds)${RESET}$active"
+      fi
+    done
+    echo -ne "\033[2K"
+
+    # Read keypress
+    IFS= read -rsn1 key
+    case "$key" in
+      $'\x1b')
+        read -rsn2 -t 0.1 key2
+        case "$key2" in
+          '[A') # Up arrow
+            ((selected > 0)) && ((selected--))
+            ;;
+          '[B') # Down arrow
+            ((selected < count - 1)) && ((selected++))
+            ;;
+        esac
+        ;;
+      '') # Enter
+        tput cnorm 2>/dev/null || true
+        echo ""
+        echo "${packs[$selected]}"
+        return 0
+        ;;
+      'q'|'Q') # Quit
+        tput cnorm 2>/dev/null || true
+        echo ""
+        return 1
+        ;;
+    esac
+  done
+}
+
+case "${1:-}" in
   switch|pack|p)
     if [[ -z "${2:-}" ]]; then
-      # Interactive selection
-      echo "Available packs:"
-      echo ""
-      i=1
-      packs=()
       current=$(read_config active_pack warcraft)
+      packs=()
       for dir in "$SOUNDS_DIR"/*/; do
-        pack=$(basename "$dir")
-        count=$(find "$dir" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
-        marker=""
-        [[ "$pack" == "$current" ]] && marker=" (active)"
-        echo "  $i) $pack ($count sounds)$marker"
-        packs+=("$pack")
-        i=$((i + 1))
+        packs+=("$(basename "$dir")")
       done
+
       echo ""
-      read -p "Select pack [1-${#packs[@]}]: " choice
-      if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#packs[@]} )); then
-        selected="${packs[$((choice - 1))]}"
+      result=$(interactive_select "$current" "${packs[@]}") || exit 0
+      selected=$(echo "$result" | tail -1)
+
+      if [[ -n "$selected" && -d "$SOUNDS_DIR/$selected" ]]; then
         write_config active_pack "\"$selected\""
-        echo "Switched to: $selected"
-      else
-        echo "Invalid choice"
-        exit 1
+        icon=$(pack_icon "$selected")
+        count=$(find "$SOUNDS_DIR/$selected" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
+        echo -e "${GREEN}✔${RESET} Switched to ${BOLD}$icon $selected${RESET} ($count sounds)"
+
+        # Play preview sound
+        plugin_root="$(dirname "$CONFIG")"
+        CLAUDE_PLUGIN_ROOT="$plugin_root" bash "$plugin_root/scripts/play-sound.sh" session-start 2>/dev/null
       fi
     else
       pack="$2"
       if [[ -d "$SOUNDS_DIR/$pack" ]]; then
         write_config active_pack "\"$pack\""
-        echo "Switched to: $pack"
+        icon=$(pack_icon "$pack")
+        count=$(find "$SOUNDS_DIR/$pack" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
+        echo -e "${GREEN}✔${RESET} Switched to ${BOLD}$icon $pack${RESET} ($count sounds)"
+        plugin_root="$(dirname "$CONFIG")"
+        CLAUDE_PLUGIN_ROOT="$plugin_root" bash "$plugin_root/scripts/play-sound.sh" session-start 2>/dev/null
       else
-        echo "Pack '$pack' not found. Available:"
+        echo -e "${YELLOW}Pack '$pack' not found.${RESET} Available:"
         ls -1 "$SOUNDS_DIR"
         exit 1
       fi
@@ -87,62 +177,80 @@ case "${1:-help}" in
 
   list|ls|l)
     current=$(read_config active_pack warcraft)
-    echo "Sound packs:"
+    echo ""
+    echo -e "${BOLD}🎮 Sound Packs${RESET}"
     echo ""
     for dir in "$SOUNDS_DIR"/*/; do
       pack=$(basename "$dir")
       count=$(find "$dir" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
-      marker=""
-      [[ "$pack" == "$current" ]] && marker=" *"
-      echo "  $pack ($count sounds)$marker"
+      icon=$(pack_icon "$pack")
+      if [[ "$pack" == "$current" ]]; then
+        echo -e "  $icon ${BOLD}$pack${RESET} ${DIM}($count sounds)${RESET} ${GREEN}← active${RESET}"
+      else
+        echo -e "  $icon ${DIM}$pack ($count sounds)${RESET}"
+      fi
     done
     echo ""
-    echo "* = active pack"
     ;;
 
   volume|vol|v)
     if [[ -z "${2:-}" ]]; then
       vol=$(read_config volume 0.5)
-      echo "Volume: $vol"
+      echo -e "🔊 Volume: ${BOLD}$vol${RESET}"
     else
       vol="$2"
       write_config volume "$vol"
-      echo "Volume set to: $vol"
+      echo -e "${GREEN}✔${RESET} Volume set to ${BOLD}$vol${RESET}"
     fi
     ;;
 
   test|t)
     category="${2:-session-start}"
     plugin_root="$(dirname "$CONFIG")"
+    pack=$(read_config active_pack warcraft)
+    icon=$(pack_icon "$pack")
     CLAUDE_PLUGIN_ROOT="$plugin_root" bash "$plugin_root/scripts/play-sound.sh" "$category"
-    echo "Played: $category"
+    echo -e "🔊 Playing ${BOLD}$category${RESET} from $icon $pack"
     ;;
 
   status|s)
     pack=$(read_config active_pack warcraft)
     vol=$(read_config volume 0.5)
     count=$(find "$SOUNDS_DIR/$pack" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
-    echo "Pack:   $pack ($count sounds)"
-    echo "Volume: $vol"
+    icon=$(pack_icon "$pack")
+    echo ""
+    echo -e "${BOLD}🎮 Game Sounds${RESET}"
+    echo -e "  Pack:   $icon ${BOLD}$pack${RESET} ($count sounds)"
+    echo -e "  Volume: 🔊 ${BOLD}$vol${RESET}"
+    echo ""
     ;;
 
-  help|--help|-h|*)
-    cat <<'HELP'
-game-sounds — manage Claude Code game sound packs
+  help|--help|-h)
+    echo ""
+    echo -e "${BOLD}🎮 game-sounds${RESET} — manage Claude Code game sound packs"
+    echo ""
+    echo -e "  ${CYAN}switch${RESET} [pack]     Interactive pack picker (or direct switch)"
+    echo -e "  ${CYAN}list${RESET}              List all available packs"
+    echo -e "  ${CYAN}volume${RESET} [0.0-1.0]  Get or set volume"
+    echo -e "  ${CYAN}test${RESET} [category]   Play a test sound"
+    echo -e "  ${CYAN}status${RESET}            Show current config"
+    echo ""
+    echo -e "  ${DIM}game-sounds switch              # arrow-key picker${RESET}"
+    echo -e "  ${DIM}game-sounds switch starcraft     # direct switch${RESET}"
+    echo -e "  ${DIM}game-sounds volume 0.3           # quieter${RESET}"
+    echo -e "  ${DIM}game-sounds test task-complete    # preview a sound${RESET}"
+    echo ""
+    ;;
 
-Commands:
-  switch [pack]    Switch sound pack (interactive if no pack given)
-  list             List available packs
-  volume [0.0-1.0] Get/set volume
-  test [category]  Play a test sound
-  status           Show current config
-
-Examples:
-  game-sounds switch starcraft
-  game-sounds switch              # interactive picker
-  game-sounds volume 0.3
-  game-sounds test task-complete
-  game-sounds list
-HELP
+  *)
+    # No args = show status + hint
+    pack=$(read_config active_pack warcraft)
+    vol=$(read_config volume 0.5)
+    count=$(find "$SOUNDS_DIR/$pack" -name "*.mp3" 2>/dev/null | wc -l | tr -d ' ')
+    icon=$(pack_icon "$pack")
+    echo ""
+    echo -e "${BOLD}🎮 Game Sounds${RESET} — $icon ${BOLD}$pack${RESET} ($count sounds) 🔊 $vol"
+    echo -e "  ${DIM}Run${RESET} ${CYAN}game-sounds switch${RESET} ${DIM}to change pack${RESET}"
+    echo ""
     ;;
 esac
