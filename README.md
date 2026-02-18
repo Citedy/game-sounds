@@ -36,38 +36,28 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 | **zelda** | 11 | Secret found jingle, "Hey listen!", chest open, item get |
 | **mario** | 10 | "Let's-a go!", "Yahoo!", "Mamma mia", game over |
 
-Switch packs: `/game-sounds pack starcraft`
+## Switch Packs
 
-## Commands
+**From terminal:**
 
-Use `/game-sounds` in Claude Code to manage settings:
-
-```
-/game-sounds              # Show current config
-/game-sounds volume 0.3   # Set volume (0.0-1.0)
-/game-sounds pack warcraft # Switch sound pack
-/game-sounds list         # List available packs
-/game-sounds toggle error # Enable/disable event category
-/game-sounds test         # Play a test sound
+```bash
+game-sounds switch starcraft    # direct switch
+game-sounds switch              # interactive picker
+game-sounds list                # show all packs
+game-sounds volume 0.3          # set volume (0.0-1.0)
+game-sounds test task-complete  # play a test sound
+game-sounds status              # current config
 ```
 
-## Config
+The `game-sounds` CLI is available globally when installed via npm (`npm i -g`).
 
-Edit `config.json` to customize:
+For marketplace installs, add to PATH:
 
-```json
-{
-  "volume": 0.5,
-  "active_pack": "warcraft",
-  "enabled_events": {
-    "session-start": true,
-    "task-acknowledge": true,
-    "task-complete": true,
-    "error": true,
-    "permission": true
-  }
-}
+```bash
+export PATH="$HOME/.claude/plugins/cache/citedy/game-sounds/1.1.0/scripts:$PATH"
 ```
+
+**From Claude Code:** use `/game-sounds pack starcraft`
 
 ## Platform Support
 
