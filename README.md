@@ -6,10 +6,21 @@ Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-c
 
 ## Install
 
+### Option A: Inside Claude Code (easiest)
+
+1. Type `/plugin` in Claude Code
+2. Enter `citedy/claude-plugins` as marketplace source
+3. Select **game-sounds** and install
+4. Restart Claude Code
+
+### Option B: Terminal CLI
+
 ```bash
 claude plugin marketplace add citedy/claude-plugins
 claude plugin install game-sounds@citedy
 ```
+
+Then restart Claude Code.
 
 <details>
 <summary>Alternative install methods</summary>
@@ -54,7 +65,7 @@ The `game-sounds` CLI is available globally when installed via npm (`npm i -g`).
 For marketplace installs, add to PATH:
 
 ```bash
-export PATH="$HOME/.claude/plugins/cache/citedy/game-sounds/1.1.0/scripts:$PATH"
+export PATH="$HOME/.claude/plugins/cache/citedy/game-sounds/1.1.2/scripts:$PATH"
 ```
 
 **From Claude Code:** use `/game-sounds pack starcraft`
