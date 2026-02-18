@@ -7,7 +7,7 @@ Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-c
 ## Install
 
 ```bash
-claude plugin marketplace add Citedy/claude-plugins
+claude plugin marketplace add citedy/claude-plugins
 claude plugin install game-sounds@citedy
 ```
 
