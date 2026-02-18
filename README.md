@@ -1,8 +1,8 @@
 # @citedy/game-sounds
 
-Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — hear Warcraft Peon voice lines as you code!
+Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — 91 iconic voice lines from 6 classic games!
 
-**"Work work!"** when you submit a prompt. **"Job's done!"** when the task completes. **"Stop poking me!"** on errors.
+**"Work work!"** when you submit a prompt. **"Job's done!"** when the task completes. **"Construction complete"** from your C&C childhood.
 
 ## Install
 
@@ -25,19 +25,18 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
 </details>
 
-## Sound Packs
+## Sound Packs (6 packs, 91 sounds)
 
-### Warcraft (default)
+| Pack | Sounds | Highlights |
+|------|--------|------------|
+| **warcraft** (default) | 22 | "Work work!", "Job's done!", "Zug zug", "Stop poking me!" |
+| **starcraft** | 21 | "Affirmative", "Battlecruiser operational", "Negative" |
+| **command-conquer** | 15 | "Construction complete", "Unit ready", "Mission accomplished" |
+| **diablo** | 12 | "Stay awhile and listen", "Fresh meat!", legendary drop |
+| **zelda** | 11 | Secret found jingle, "Hey listen!", chest open, item get |
+| **mario** | 10 | "Let's-a go!", "Yahoo!", "Mamma mia", game over |
 
-| Event | Sound Category | Example Phrases |
-|-------|---------------|-----------------|
-| Session Start | `session-start` | "Ready to work", "Something need doing?" |
-| Prompt Submit | `task-acknowledge` | "Work work", "Zug zug", "Okie dokie" |
-| Task Complete | `task-complete` | "Job's done!", "Work complete" |
-| Error | `error` | "Stop poking me!", "That was a mistake" |
-| Notification | `permission` | "What?", "What now?" |
-
-More packs coming soon: StarCraft, Diablo, Zelda, Mario...
+Switch packs: `/game-sounds pack starcraft`
 
 ## Commands
 
@@ -97,7 +96,7 @@ Add `.mp3`, `.wav`, or `.ogg` files to each category folder. Then switch:
 
 ## Credits
 
-Sound files sourced from [PeonPing](https://github.com/PeonPing/peon-ping). Warcraft is a trademark of Blizzard Entertainment.
+Sound files sourced from [PeonPing](https://github.com/PeonPing/peon-ping), [Myinstants](https://www.myinstants.com), and [red-alert-2-voice-for-compile](https://github.com/Blankwonder/red-alert-2-voice-for-compile). Game trademarks belong to their respective owners (Blizzard, EA/Westwood, Nintendo).
 
 ---
 
