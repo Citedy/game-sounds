@@ -1,12 +1,15 @@
 {
   "name": "@citedy/game-sounds",
   "version": "1.1.2",
-  "description": "Game sound effects for Claude Code — Warcraft, StarCraft & more. Work work! 🔨",
+  "description": "127 game sound effects for Claude Code — 12 packs: Warcraft, StarCraft, Mortal Kombat, Street Fighter, Counter-Strike, Metal Gear Solid & more!",
   "keywords": [
     "claude-code",
     "claude-code-plugin",
     "game-sounds",
     "warcraft",
+    "mortal-kombat",
+    "counter-strike",
+    "street-fighter",
     "sound-effects",
     "developer-experience"
   ],

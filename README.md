@@ -36,7 +36,7 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
 </details>
 
-## Sound Packs (6 packs, 91 sounds)
+## Sound Packs (12 packs, 127 sounds)
 
 | Pack | Sounds | Highlights |
 |------|--------|------------|
@@ -46,6 +46,12 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 | **diablo** | 12 | "Stay awhile and listen", "Fresh meat!", legendary drop |
 | **zelda** | 11 | Secret found jingle, "Hey listen!", chest open, item get |
 | **mario** | 10 | "Let's-a go!", "Yahoo!", "Mamma mia", game over |
+| **mortal-kombat** | 8 | "Finish Him!", "Get Over Here!", "Fatality", "Toasty!" |
+| **counter-strike** | 7 | "Terrorists Win", "Bomb planted", "Go go go", "Enemy spotted" |
+| **street-fighter** | 6 | "Hadouken!", "Shoryuken!", "Perfect", "KO" |
+| **metal-gear-solid** | 5 | Alert sound (❗), "Snake? SNAAAKE!", codec call |
+| **sonic** | 5 | Ring collect, spin dash, extra life, game over |
+| **pac-man** | 5 | Waka waka, game start, ghost eat, death |
 
 ## Switch Packs
 
