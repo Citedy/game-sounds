@@ -9,14 +9,16 @@ Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-c
 ### Option A: Inside Claude Code (easiest)
 
 1. Type `/plugin` in Claude Code
-2. Enter `https://github.com/Citedy/claude-plugins.git` as marketplace source
+2. Enter `citedy/claude-plugins` as marketplace source (or `https://github.com/Citedy/claude-plugins.git` if SSH fails)
 3. Select **game-sounds** and install
 4. Restart Claude Code
 
 ### Option B: Terminal CLI
 
 ```bash
-claude plugin marketplace add https://github.com/Citedy/claude-plugins.git
+claude plugin marketplace add citedy/claude-plugins
+# If SSH error, use HTTPS instead:
+# claude plugin marketplace add https://github.com/Citedy/claude-plugins.git
 claude plugin install game-sounds@citedy
 ```
 
