@@ -36,7 +36,7 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
 </details>
 
-## Sound Packs (17 packs, 167 sounds)
+## Sound Packs (17 packs, 166 sounds)
 
 | Pack | Sounds | Highlights |
 |------|--------|------------|
@@ -48,7 +48,7 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 | **zelda** | 11 | Secret found jingle, "Hey listen!", chest open, item get |
 | **mario** | 10 | "Let's-a go!", "Yahoo!", "Mamma mia", game over |
 | **mortal-kombat** | 8 | "Finish Him!", "Get Over Here!", "Fatality", "Toasty!" |
-| **doom** | 8 | Shotgun, BFG, chainsaw, E1M1 riff, Doomguy death scream |
+| **doom** | 7 | Shotgun, chainsaw, E1M1 riff, Doomguy death scream |
 | **counter-strike** | 7 | "Terrorists Win", "Bomb planted", "Go go go", "Enemy spotted" |
 | **gta** | 7 | "Wasted", "Mission Passed", "Busted", police radio |
 | **quake** | 7 | "Impressive!", "Excellent!", quad damage, rocket launcher |
