@@ -1,7 +1,7 @@
 {
   "name": "@citedy/game-sounds",
-  "version": "1.4.2",
-  "description": "166 game sound effects for Claude Code — 17 packs: Warcraft, StarCraft, Mortal Kombat, Doom, Quake, Silent Hill, Counter-Strike & more!",
+  "version": "2.0.0",
+  "description": "225 game sound effects for Claude Code — 28 packs: Warcraft, StarCraft, Batman, Matrix, Harry Potter, Game of Thrones, LOTR, Star Trek & more!",
   "keywords": [
     "claude-code",
     "claude-code-plugin",
@@ -14,7 +14,13 @@
     "developer-experience",
     "quake",
     "doom",
-    "silent-hill"
+    "silent-hill",
+    "batman",
+    "harry-potter",
+    "matrix",
+    "game-of-thrones",
+    "star-trek",
+    "lord-of-the-rings"
   ],
   "author": "Citedy <hello@citedy.com>",
   "license": "MIT",

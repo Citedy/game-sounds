@@ -1,6 +1,6 @@
 # @citedy/game-sounds
 
-Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — 91 iconic voice lines from 6 classic games!
+Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — 225 iconic sounds from 28 classic games!
 
 **"Work work!"** when you submit a prompt. **"Job's done!"** when the task completes. **"Construction complete"** from your C&C childhood.
 
@@ -38,7 +38,7 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
 </details>
 
-## Sound Packs (17 packs, 166 sounds)
+## Sound Packs (28 packs, 225 sounds)
 
 | Pack | Sounds | Highlights |
 |------|--------|------------|
@@ -50,15 +50,26 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 | **zelda** | 11 | Secret found jingle, "Hey listen!", chest open, item get |
 | **mario** | 10 | "Let's-a go!", "Yahoo!", "Mamma mia", game over |
 | **mortal-kombat** | 8 | "Finish Him!", "Get Over Here!", "Fatality", "Toasty!" |
-| **doom** | 7 | Shotgun, chainsaw, E1M1 riff, Doomguy death scream |
+| **batman** | 7 | Na na na Batman!, "I'm Batman", Joker laugh, dark knight theme |
 | **counter-strike** | 7 | "Terrorists Win", "Bomb planted", "Go go go", "Enemy spotted" |
+| **doom** | 7 | Shotgun, chainsaw, E1M1 riff, Doomguy death scream |
 | **gta** | 7 | "Wasted", "Mission Passed", "Busted", police radio |
+| **looney-tunes** | 7 | "That's all folks!", "What's up doc?", Road Runner meep meep |
 | **quake** | 7 | "Impressive!", "Excellent!", quad damage, rocket launcher |
 | **silent-hill** | 7 | Air raid siren, radio static, monster growl, fog horn |
+| **scooby-doo** | 6 | "Scooby-Dooby-Doo!", "Ruh-roh", "Zoinks!", mystery machine |
 | **street-fighter** | 6 | "Hadouken!", "Shoryuken!", "Perfect", "KO" |
+| **game-of-thrones** | 5 | Main theme, "Winter is coming", Dracarys, shame bell |
+| **harry-potter** | 5 | Hedwig's theme, "Expelliarmus!", "Always", sorting hat |
+| **lord-of-the-rings** | 5 | Fellowship theme, "You shall not pass!", Shire theme |
+| **matrix** | 5 | "I know kung fu", "There is no spoon", bullet time |
 | **metal-gear-solid** | 5 | Alert sound (❗), "Snake? SNAAAKE!", codec call |
-| **sonic** | 5 | Ring collect, spin dash, extra life, game over |
+| **mission-impossible** | 5 | Main theme, "Your mission...", fuse burning |
 | **pac-man** | 5 | Waka waka, game start, ghost eat, death |
+| **sonic** | 5 | Ring collect, spin dash, extra life, game over |
+| **star-trek** | 5 | "Make it so", communicator chirp, red alert, "Engage" |
+| **tmnt** | 5 | "Cowabunga!", turtle power theme, "Heroes in a half shell" |
+| **top-gun** | 5 | Danger Zone riff, "I feel the need for speed", tower flyby |
 
 ## Switch Packs
 
@@ -110,7 +121,7 @@ Add `.mp3`, `.wav`, or `.ogg` files to each category folder. Then switch:
 
 ## Credits
 
-Sound files sourced from [PeonPing](https://github.com/PeonPing/peon-ping), [Myinstants](https://www.myinstants.com), and [red-alert-2-voice-for-compile](https://github.com/Blankwonder/red-alert-2-voice-for-compile). Game trademarks belong to their respective owners (Blizzard, EA/Westwood, Nintendo).
+Sound files sourced from [PeonPing](https://github.com/PeonPing/peon-ping), [Myinstants](https://www.myinstants.com), and [red-alert-2-voice-for-compile](https://github.com/Blankwonder/red-alert-2-voice-for-compile). Game trademarks belong to their respective owners (Blizzard, EA/Westwood, Nintendo, DC Comics, Nickelodeon, Warner Bros, Paramount, HBO, Konami, Sega, Hanna-Barbera).
 
 ---
 
