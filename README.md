@@ -1,5 +1,7 @@
 # @citedy/game-sounds
 
+![Game Sounds Banner](docs/pics/game-sounds-banner.webp)
+
 Game sound effects for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — 552 iconic sounds from 63 classic games!
 
 **"Work work!"** when you submit a prompt. **"Job's done!"** when the task completes. **"I'm Batman"** on session start. Hedwig's Theme when task completes. Shame bell on error.
