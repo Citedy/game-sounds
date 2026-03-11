@@ -1,6 +1,7 @@
 {
   "volume": 0.5,
   "active_pack": "warcraft",
+  "pack_rotation": [],
   "enabled_events": {
     "session-start": true,
     "task-acknowledge": true,
