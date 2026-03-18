@@ -28,6 +28,19 @@ if [[ "$EVENT_ENABLED" == "False" ]]; then
   exit 0
 fi
 
+# Cooldown: skip if this category played too recently (prevents spamming on
+# high-frequency events like PostToolUseFailure)
+COOLDOWN_FILE="/tmp/game-sounds-cooldown-$CATEGORY"
+COOLDOWN_SECS=30
+if [[ -f "$COOLDOWN_FILE" ]]; then
+  LAST_TIME=$(cat "$COOLDOWN_FILE" 2>/dev/null || echo "0")
+  NOW=$(date +%s)
+  if (( NOW - LAST_TIME < COOLDOWN_SECS )); then
+    exit 0
+  fi
+fi
+date +%s > "$COOLDOWN_FILE"
+
 # Find sound files
 SOUND_DIR="$PLUGIN_ROOT/sounds/$ACTIVE_PACK/$CATEGORY"
 if [[ ! -d "$SOUND_DIR" ]]; then
