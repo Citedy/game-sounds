@@ -28,18 +28,22 @@ if [[ "$EVENT_ENABLED" == "False" ]]; then
   exit 0
 fi
 
-# Cooldown: skip if this category played too recently (prevents spamming on
-# high-frequency events like PostToolUseFailure)
-COOLDOWN_FILE="/tmp/game-sounds-cooldown-$CATEGORY"
-COOLDOWN_SECS=30
-if [[ -f "$COOLDOWN_FILE" ]]; then
-  LAST_TIME=$(cat "$COOLDOWN_FILE" 2>/dev/null || echo "0")
-  NOW=$(date +%s)
-  if (( NOW - LAST_TIME < COOLDOWN_SECS )); then
-    exit 0
-  fi
+# Read hook input from stdin (Claude Code passes JSON with event context)
+HOOK_INPUT=""
+if [[ ! -t 0 ]]; then
+  HOOK_INPUT=$(cat)
 fi
-date +%s > "$COOLDOWN_FILE"
+
+# For error category: only play on meaningful failures, not routine tool noise.
+# Bash non-zero exits and Edit/Write failures are real errors worth signaling.
+# Grep/Glob/Read failures are normal exploration and should be silent.
+if [[ "$CATEGORY" == "error" && -n "$HOOK_INPUT" ]]; then
+  TOOL_NAME=$(python3 -c "import json,sys; print(json.loads(sys.argv[1]).get('tool_name',''))" "$HOOK_INPUT" 2>/dev/null || echo "")
+  case "$TOOL_NAME" in
+    Bash|Edit|Write) ;; # real failures — play the sound
+    *) exit 0 ;;        # routine noise — skip
+  esac
+fi
 
 # Find sound files
 SOUND_DIR="$PLUGIN_ROOT/sounds/$ACTIVE_PACK/$CATEGORY"
