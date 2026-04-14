@@ -13,16 +13,18 @@ fi
 # Resolve plugin root
 PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 CONFIG_FILE="$PLUGIN_ROOT/config.json"
+HELPER="$PLUGIN_ROOT/scripts/config-helper.py"
 
 # Read config
 if [[ ! -f "$CONFIG_FILE" ]]; then
   exit 0
 fi
 
-# Parse config with built-in tools (no jq dependency)
-VOLUME=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE'))['volume'])" 2>/dev/null || echo "0.5")
-ACTIVE_PACK=$(python3 -c "import json; print(json.load(open('$CONFIG_FILE'))['active_pack'])" 2>/dev/null || echo "warcraft")
-EVENT_ENABLED=$(python3 -c "import json; c=json.load(open('$CONFIG_FILE')); print(c['enabled_events'].get('$CATEGORY', True))" 2>/dev/null || echo "True")
+cfg() { python3 "$HELPER" "$CONFIG_FILE" "$@" 2>/dev/null; }
+
+VOLUME=$(cfg get volume 0.5 || echo "0.5")
+ACTIVE_PACK=$(cfg get active_pack warcraft || echo "warcraft")
+EVENT_ENABLED=$(cfg event-enabled "$CATEGORY" || echo "True")
 
 if [[ "$EVENT_ENABLED" == "False" ]]; then
   exit 0
@@ -43,6 +45,25 @@ if [[ "$CATEGORY" == "error" && -n "$HOOK_INPUT" ]]; then
     Bash|Edit|Write) ;; # real failures — play the sound
     *) exit 0 ;;        # routine noise — skip
   esac
+fi
+
+# Session-based pack rotation
+SESSION_FILE="/tmp/game-sounds-session-$PPID"
+
+if [[ "$CATEGORY" == "session-start" ]]; then
+  # On session start, pick a random pack from rotation (if configured)
+  PICKED=$(cfg rotation-pick || echo "")
+  [[ -n "$PICKED" ]] && ACTIVE_PACK="$PICKED"
+
+  # Write chosen pack to session file so all events in this session use it
+  echo "$ACTIVE_PACK" > "$SESSION_FILE"
+
+  # Cleanup stale session files (older than 24h)
+  find /tmp -maxdepth 1 -name "game-sounds-session-*" -mmin +1440 -delete 2>/dev/null || true
+elif [[ -f "$SESSION_FILE" ]]; then
+  # Non-session-start events: use the pack chosen at session start
+  SESSION_PACK=$(cat "$SESSION_FILE" 2>/dev/null || echo "")
+  [[ -n "$SESSION_PACK" ]] && ACTIVE_PACK="$SESSION_PACK"
 fi
 
 # Random pack: if active_pack is "*", pick a random pack that has sounds for this category
