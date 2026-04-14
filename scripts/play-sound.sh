@@ -28,6 +28,23 @@ if [[ "$EVENT_ENABLED" == "False" ]]; then
   exit 0
 fi
 
+# Read hook input from stdin (Claude Code passes JSON with event context)
+HOOK_INPUT=""
+if [[ ! -t 0 ]]; then
+  HOOK_INPUT=$(cat)
+fi
+
+# For error category: only play on meaningful failures, not routine tool noise.
+# Bash non-zero exits and Edit/Write failures are real errors worth signaling.
+# Grep/Glob/Read failures are normal exploration and should be silent.
+if [[ "$CATEGORY" == "error" && -n "$HOOK_INPUT" ]]; then
+  TOOL_NAME=$(python3 -c "import json,sys; print(json.loads(sys.argv[1]).get('tool_name',''))" "$HOOK_INPUT" 2>/dev/null || echo "")
+  case "$TOOL_NAME" in
+    Bash|Edit|Write) ;; # real failures — play the sound
+    *) exit 0 ;;        # routine noise — skip
+  esac
+fi
+
 # Random pack: if active_pack is "*", pick a random pack that has sounds for this category
 if [[ "$ACTIVE_PACK" == "*" ]]; then
   candidates=()

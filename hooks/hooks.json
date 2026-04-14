@@ -30,6 +30,16 @@
         ]
       }
     ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/play-sound.sh error"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "hooks": [
