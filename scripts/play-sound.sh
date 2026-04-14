@@ -28,6 +28,18 @@ if [[ "$EVENT_ENABLED" == "False" ]]; then
   exit 0
 fi
 
+# Random pack: if active_pack is "*", pick a random pack that has sounds for this category
+if [[ "$ACTIVE_PACK" == "*" ]]; then
+  candidates=()
+  for pack_dir in "$PLUGIN_ROOT/sounds"/*/; do
+    [[ -d "${pack_dir}${CATEGORY}" ]] && candidates+=("$(basename "$pack_dir")")
+  done
+  if [[ ${#candidates[@]} -eq 0 ]]; then
+    exit 0
+  fi
+  ACTIVE_PACK="${candidates[$((RANDOM % ${#candidates[@]}))]}"
+fi
+
 # Find sound files
 SOUND_DIR="$PLUGIN_ROOT/sounds/$ACTIVE_PACK/$CATEGORY"
 if [[ ! -d "$SOUND_DIR" ]]; then
