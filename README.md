@@ -116,7 +116,7 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 game-sounds switch starcraft    # direct switch
 game-sounds switch              # interactive picker
 game-sounds list                # show all packs
-game-sounds volume 0.3          # set volume (0.0-1.0)
+game-sounds volume 0.3          # set volume (1.0 = source level, >1.0 amplifies louder)
 game-sounds test task-complete  # play a test sound
 game-sounds status              # current config
 ```
