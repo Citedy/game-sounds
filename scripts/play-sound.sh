@@ -119,7 +119,28 @@ fi
 echo "$SOUND" > "$LAST_PLAYED_FILE"
 
 # Play sound (background, non-blocking)
-if command -v afplay &>/dev/null; then
+# Detect Windows environments (Git Bash, Cygwin, MSYS2, WSL interop)
+if [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]] || \
+   uname -s 2>/dev/null | grep -qiE "mingw|cygwin|msys"; then
+  # Windows (via PowerShell MediaPlayer — supports mp3/wav with volume control)
+  # Convert Unix-style path to Windows path if needed
+  if command -v cygpath &>/dev/null; then
+    WIN_SOUND=$(cygpath -w "$SOUND")
+  else
+    WIN_SOUND="$SOUND"
+  fi
+  powershell.exe -NoProfile -Command "
+    Add-Type -AssemblyName PresentationCore
+    \$player = New-Object System.Windows.Media.MediaPlayer
+    \$player.Open([Uri]'$WIN_SOUND')
+    \$player.Volume = $VOLUME
+    Start-Sleep -Milliseconds 100
+    \$player.Play()
+    while (\$player.Position -lt \$player.NaturalDuration.TimeSpan -and \$player.NaturalDuration.HasTimeSpan) {
+      Start-Sleep -Milliseconds 50
+    }
+  " &>/dev/null &
+elif command -v afplay &>/dev/null; then
   # macOS
   afplay -v "$VOLUME" "$SOUND" &
 elif command -v paplay &>/dev/null; then
