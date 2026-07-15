@@ -133,6 +133,7 @@ export PATH="$HOME/.claude/plugins/cache/citedy/game-sounds/1.1.2/scripts:$PATH"
 
 ## Platform Support
 
+- **Windows**: PowerShell `MediaPlayer` (built-in, supports Git Bash, Cygwin, MSYS2)
 - **macOS**: `afplay` (built-in)
 - **Linux**: `paplay` (PulseAudio), `pw-play` (PipeWire), or `ffplay` (FFmpeg)
 
