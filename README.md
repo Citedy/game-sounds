@@ -2,7 +2,7 @@
 
 ![Game Sounds Banner](docs/pics/game-sounds-banner.webp)
 
-Game sound effects for **Claude Code/Codex/Droid/any CLI/IDE** — 552 iconic sounds from 63 classic games!
+Game sound effects for **Claude Code/Codex/Droid/any CLI/IDE** — 564 iconic sounds from 64 classic games!
 
 **"Work work!"** when you submit a prompt. **"Job's done!"** when the task completes. **"I'm Batman"** on session start. Hedwig's Theme when task completes. Shame bell on error.
 
@@ -40,11 +40,12 @@ claude --plugin-dir $(npm root -g)/@citedy/game-sounds
 
 </details>
 
-## Sound Packs (63 packs, 552 sounds)
+## Sound Packs (64 packs, 564 sounds)
 
 | Pack | Sounds | Highlights |
 |------|--------|------------|
 | **warcraft** (default) | 22 | "Work work!", "Job's done!", "Zug zug", "Stop poking me!" |
+| **age-of-empires** | 12 | "Wololo", "Start the game already!", "All hail!", villager sounds |
 | **starcraft** | 21 | "Affirmative", "Battlecruiser operational", "Negative" |
 | **command-conquer** | 23 | "Construction complete", "Hell March", "Mission accomplished" |
 | **tmnt** | 15 | "Cowabunga!", turtle power theme, area clear |
