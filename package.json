@@ -1,11 +1,13 @@
 {
   "name": "@citedy/game-sounds",
   "version": "3.0.1",
-  "description": "552 game sound effects for Claude Code — 63 packs: Warcraft, StarCraft, Batman, Matrix, Harry Potter, DuckTales, Castlevania, Mega Man, Kirby, Indiana Jones & more!",
+  "description": "576 game sound effects for Claude Code — 64 packs: Warcraft, StarCraft, Brain Rot, Batman, Matrix, Harry Potter, DuckTales, Castlevania, Mega Man, Kirby, Indiana Jones & more!",
   "keywords": [
     "claude-code",
     "claude-code-plugin",
     "game-sounds",
+    "brain-rot",
+    "memes",
     "warcraft",
     "mortal-kombat",
     "counter-strike",
